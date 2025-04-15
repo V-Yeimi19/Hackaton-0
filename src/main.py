@@ -32,3 +32,25 @@ def calculate(expression: str) -> float:
     except Exception:
         raise SyntaxError("Sintaxis inválida.")
 
+
+def calculate(expression: str) -> float:
+    if not expression or expression.strip() == "":
+        raise ValueError("La expresión está vacía.")
+    
+    try:
+        for char in expression:
+            if not (char.isdigit() or char in " +.\t-"):
+                raise ValueError("Caracter inválido en la expresión.")
+
+        expression = expression.replace('\t', ' ').strip()
+        tokens = expression.split('+')
+        result = 0.0
+
+        for token in tokens:
+            if token.strip():
+                result += float(token.strip())
+
+        return result
+    except Exception:
+        raise SyntaxError("Sintaxis inválida.")
+
