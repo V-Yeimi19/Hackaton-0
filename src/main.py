@@ -1,3 +1,4 @@
+
 def calculate(expression: str) -> float:
     if not expression or expression.strip() == "":
         raise ValueError("La expresión está vacía.")
@@ -32,6 +33,27 @@ def calculate(expression: str) -> float:
     except Exception:
         raise SyntaxError("Sintaxis inválida.")
 
+def calculate(expression: str) -> float:
+    if not expression or expression.strip() == "":
+        raise ValueError("La expresión está vacía.")
+    
+    try:
+        for char in expression:
+            if not (char.isdigit() or char in " +.\t-"):
+                raise ValueError("Caracter inválido en la expresión.")
+
+        expression = expression.replace('\t', ' ').strip()
+        tokens = expression.split('+')
+        result = 0.0
+
+        for token in tokens:
+            if token.strip():
+                result += float(token.strip())
+
+        return result
+    except Exception:
+        raise SyntaxError("Sintaxis inválida.")
+
 
 def calculate(expression: str) -> float:
     if not expression or expression.strip() == "":
@@ -54,12 +76,34 @@ def calculate(expression: str) -> float:
     except Exception:
         raise SyntaxError("Sintaxis inválida.")
 
+
 def calculate(expression: str) -> float:
     if not expression or expression.strip() == "":
         raise ValueError("La expresión está vacía.")
 
     try:
         for char in expression:
+
+            if not (char.isdigit() or char in " /.\t-"):
+                raise ValueError("Caracter inválido en la expresión.")
+
+        expression = expression.replace('\t', ' ').strip()
+        tokens = expression.split('/')
+        
+        if len(tokens) < 2:
+            raise SyntaxError("Sintaxis inválida.")
+        
+        result = float(tokens[0].strip())
+        for token in tokens[1:]:
+            divisor = float(token.strip())
+            if divisor == 0:
+                raise ZeroDivisionError("División por cero.")
+            result /= divisor
+
+        return result
+    except ZeroDivisionError:
+        raise
+
             if not (char.isdigit() or char in " *.\t-"):
                 raise ValueError("Caracter inválido en la expresión.")
 
@@ -72,5 +116,6 @@ def calculate(expression: str) -> float:
                 result *= float(token.strip())
 
         return result
+
     except Exception:
         raise SyntaxError("Sintaxis inválida.")
